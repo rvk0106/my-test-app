@@ -1,17 +1,20 @@
 # State Management
 > Tags: state, context, redux, zustand, hooks, server-state
 > Scope: How application state is organized, stored, and accessed
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
+
+## Current State
+No state management library is installed. The only state in the app is a local `count` via `useState` in `App.tsx`.
 
 ## State Categories
 
 | Category | Where | Examples |
 |----------|-------|---------|
 | **Local / UI state** | `useState`, `useReducer` in components | Form inputs, toggles, modals open/close, accordion state |
-| **Shared / App state** | Context API or state library | Auth user, theme, locale, feature flags, shopping cart |
-| **Server state** | Data fetching library (TanStack Query / SWR / RTK Query) | API data, loading/error states, cache, pagination |
-| **URL state** | Router (search params, path params) | Current page, filters, sort order, active tab |
-| **Form state** | Form library or local state | Field values, validation errors, dirty/touched state |
+| **Shared / App state** | Not used | TBD — no Context or state library installed |
+| **Server state** | Not used | TBD — no data-fetching library installed |
+| **URL state** | Not used | TBD — no router installed |
+| **Form state** | Not used | TBD — no forms exist |
 
 ## Rules
 - ALWAYS use the simplest approach that works
@@ -21,45 +24,13 @@
 - Do NOT duplicate server data in client state
 
 ## State Library
-<!-- Fill in which library is used -->
-- Library: [Context API / Redux Toolkit / Zustand / Jotai / none]
-- Location: [e.g. `src/context/` or `src/store/`]
-
-### If Context API:
-```tsx
-// src/context/AuthContext.tsx
-interface AuthContextValue {
-  user: User | null;
-  login: (credentials: Credentials) => Promise<void>;
-  logout: () => void;
-  isAuthenticated: boolean;
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be within AuthProvider");
-  return context;
-};
-```
-
-### If Zustand / Redux / Jotai:
-<!-- Document the store structure, slices, and access patterns -->
+- Library: None
+- Location: N/A
 
 ## Server State
-<!-- Document the data fetching strategy -->
-- Library: [TanStack Query / SWR / RTK Query / custom hooks]
-- Cache strategy: [stale-while-revalidate / cache-first / network-first]
-- Key convention: [e.g. `['users', userId]`, `['posts', { page, limit }]`]
-
-```tsx
-// Example query pattern
-const { data, isLoading, error } = useQuery({
-  queryKey: ['users', userId],
-  queryFn: () => fetchUser(userId),
-});
-```
+- Library: Not used
+- Cache strategy: N/A
+- Key convention: N/A
 
 ## State Decision Tree
 ```
@@ -71,13 +42,6 @@ Need state?
 ├── Should survive refresh → URL params (router)
 └── Form fields → form library or local state
 ```
-
-## Anti-Patterns to Avoid
-- Prop drilling > 3 levels deep — use context or composition
-- Storing derived data — compute from source state instead
-- Storing server data in global store — use a data-fetching library
-- Syncing state between two sources — single source of truth
-- Large monolithic context — split by domain
 
 ## Changelog
 <!-- [PROJ-123] Migrated auth state from Redux to Context API -->

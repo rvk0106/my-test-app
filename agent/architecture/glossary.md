@@ -1,19 +1,18 @@
 # Glossary & Domain Terms
 > Tags: glossary, domain, terms, definitions
 > Scope: Project-specific terminology agents must understand
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Instructions
 Fill this in with your project's domain terms. Agents read this before planning
 to avoid misinterpreting requirements.
 
 ## Domain Terms
-<!-- Add your project-specific terms below -->
+No domain-specific terms defined yet — the project is a fresh scaffold with no business logic.
 
 | Term | Definition | Used In |
 |------|-----------|---------|
-| [e.g. Dashboard] | [Main overview page showing key metrics] | [src/pages/Dashboard.tsx] |
-| [e.g. Workspace] | [A user's project container with settings and members] | [src/components/workspace/] |
+| TBD | TBD | TBD |
 
 ## UI / React Terms
 | Term | Definition |
@@ -35,6 +34,7 @@ to avoid misinterpreting requirements.
 | CSR | Client-Side Rendering |
 | RTL | React Testing Library (also Right-to-Left) |
 | SWR | Stale-While-Revalidate |
+| HMR | Hot Module Replacement |
 
 ## Changelog
 <!-- [PROJ-123] Added "Workspace" term for multi-tenant projects -->

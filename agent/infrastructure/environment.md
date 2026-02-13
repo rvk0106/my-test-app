@@ -1,48 +1,46 @@
 # Environment
 > Tags: node, browser, runtime, versions
 > Scope: Dev/runtime environment details
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Runtime
-- Node.js: [e.g. >= 18 LTS]
-- Package manager: [npm / yarn / pnpm]
-- Bundler: [Vite / webpack / Next.js / CRA]
+- Node.js: Not specified in package.json (recommend >= 18 LTS)
+- Package manager: npm (package-lock.json present)
+- Bundler: Vite 8.0.0-beta.13
 
 ## Browser Support
+Not explicitly configured. Vite defaults to modern browsers supporting native ES modules.
+
 | Browser | Minimum Version |
 |---------|----------------|
-| Chrome | [e.g. last 2 versions] |
-| Firefox | [e.g. last 2 versions] |
-| Safari | [e.g. last 2 versions] |
-| Edge | [e.g. last 2 versions] |
-| iOS Safari | [e.g. last 2 versions] |
-| Android Chrome | [e.g. last 2 versions] |
+| Chrome | Last 2 versions (Vite default) |
+| Firefox | Last 2 versions (Vite default) |
+| Safari | Last 2 versions (Vite default) |
+| Edge | Last 2 versions (Vite default) |
 
 ## Framework
-- React: [e.g. 18.x]
-- TypeScript: [e.g. 5.x]
-- Router: [React Router 6 / Next.js / etc.]
+- React: 19.2.0
+- TypeScript: ~5.9.3
+- Router: Not installed
 
 ## Local Setup
 ```bash
-# Minimum commands to get running
 git clone [repo]
-cd project-name
-npm install        # or yarn / pnpm install
-npm run dev        # start dev server
+cd my-test-app
+npm install
+npm run dev        # start Vite dev server
 ```
 
 ## Environment Variables
-<!-- List env vars the app uses -->
+No environment variables are currently used.
+
 | Variable | Purpose | Required | Example |
 |----------|---------|----------|---------|
-| `VITE_API_URL` | Backend API base URL | Yes | `https://api.example.com` |
-| `VITE_APP_ENV` | App environment | No | `development` |
-| [Add more] | | | |
+| N/A | N/A | N/A | N/A |
 
 **Rules:**
 - `.env.local` is gitignored — never commit secrets
-- Prefix with `VITE_` (Vite) or `NEXT_PUBLIC_` (Next.js) or `REACT_APP_` (CRA) to expose to client
+- Prefix with `VITE_` to expose to client (Vite convention)
 - NEVER put server-side secrets in client env vars — they ship in the bundle
 
 ## Changelog

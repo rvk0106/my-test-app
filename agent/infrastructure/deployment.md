@@ -1,45 +1,39 @@
 # Deployment
 > Tags: build, hosting, cdn, deploy, preview
 > Scope: How the application is built and deployed
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Build
 ```bash
 npm run build
-# Output: dist/ (Vite) or build/ (CRA) or .next/ (Next.js)
+# Runs: tsc -b && vite build
+# Output: dist/
 ```
 
 ## Build Output
-- Static files: [dist/ / build/ / .next/]
-- Entry: `index.html` (SPA) or server routes (SSR)
-- Assets: hashed filenames for cache busting
+- Static files: `dist/`
+- Entry: `index.html` (SPA)
+- Assets: hashed filenames for cache busting (Vite default)
 
 ## Hosting
-- Platform: [Vercel / Netlify / AWS S3+CloudFront / Firebase Hosting / custom]
-- URL: [e.g. `https://app.example.com`]
-- Staging: [e.g. `https://staging.example.com`]
+- Platform: Not configured
+- URL: N/A
+- Staging: N/A
 
 ## Deploy Process
-<!-- Document how deploys happen -->
-- **Production**: [auto on merge to main / manual trigger / CD pipeline]
-- **Preview**: [auto per PR / Vercel/Netlify preview deployments]
-- **Staging**: [auto on push to staging branch / manual]
+Not configured. No CI/CD pipeline, no deploy scripts.
 
 ## Environment-Specific Config
+No environment-specific configuration exists yet.
+
 | Environment | API URL | Features |
 |-------------|---------|----------|
-| Development | `http://localhost:3001` | Debug tools enabled |
-| Staging | `https://staging-api.example.com` | Feature flags enabled |
-| Production | `https://api.example.com` | Analytics, error tracking |
+| Development | N/A | Vite dev server with HMR |
+| Staging | N/A | N/A |
+| Production | N/A | N/A |
 
-## Performance Budget (if defined)
-<!-- DELETE if no performance budget -->
-| Metric | Budget |
-|--------|--------|
-| First Contentful Paint | < 1.5s |
-| Largest Contentful Paint | < 2.5s |
-| Total JS bundle | < 200 KB gzipped |
-| Time to Interactive | < 3.5s |
+## Performance Budget
+Not defined.
 
 ## Danger Zones (hard stop, ask first)
 - Changing build config (bundler, output, targets)

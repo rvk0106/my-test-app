@@ -1,20 +1,25 @@
 # Error Handling
 > Tags: errors, boundaries, api-errors, user-feedback, fallback
 > Scope: How errors are caught, displayed, and recovered from
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
+
+## Current State
+No error handling infrastructure exists. No error boundaries, no API error handling, no form validation, no error UI components.
 
 ## Error Categories
 
 | Category | Source | Handling |
 |----------|--------|----------|
-| **Render errors** | Component throws during render | Error Boundary → fallback UI |
-| **API errors** | Network, 4xx, 5xx | Data-fetching library error state → user message |
-| **Form validation** | Invalid user input | Inline field errors, form-level summary |
-| **Auth errors** | 401, expired token | Redirect to login, clear session |
-| **Not found** | 404, missing resource | 404 page or empty state |
-| **Unexpected** | Uncaught exceptions | Global error boundary → generic fallback |
+| **Render errors** | Component throws during render | Not handled — no Error Boundary exists |
+| **API errors** | Network, 4xx, 5xx | Not applicable — no API calls |
+| **Form validation** | Invalid user input | Not applicable — no forms |
+| **Auth errors** | 401, expired token | Not applicable — no auth |
+| **Not found** | 404, missing resource | Not applicable — no routing |
+| **Unexpected** | Uncaught exceptions | Not handled — no global error boundary |
 
 ## Error Boundaries
+Not implemented. When needed, follow this pattern:
+
 ```tsx
 // src/components/common/ErrorBoundary.tsx
 import { Component, ErrorInfo, ReactNode } from 'react';
@@ -34,7 +39,6 @@ class ErrorBoundary extends Component<Props, { hasError: boolean }> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.props.onError?.(error, errorInfo);
-    // Log to error reporting service (Sentry, etc.)
   }
 
   render() {
@@ -44,51 +48,13 @@ class ErrorBoundary extends Component<Props, { hasError: boolean }> {
 }
 ```
 
-### Placement
+### Placement (when implemented)
 - **Root**: Global boundary wrapping `<App>` → generic fallback
 - **Route**: Per-route boundary → "Something went wrong on this page"
 - **Feature**: Around risky components → feature-specific fallback
 
 ## API Error Handling
-```tsx
-// With TanStack Query
-const { data, error, isError } = useQuery({
-  queryKey: ['users'],
-  queryFn: fetchUsers,
-});
-
-if (isError) {
-  if (error instanceof ApiError && error.status === 404) {
-    return <EmptyState message="No users found" />;
-  }
-  return <ErrorMessage error={error} />;
-}
-```
-
-### API Error Class
-```tsx
-// src/services/apiError.ts
-export class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public code?: string,
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
-}
-```
-
-### Status Code Handling
-| Status | User sees | Action |
-|--------|-----------|--------|
-| 400 | Validation errors | Show field-level errors |
-| 401 | "Session expired" | Redirect to login |
-| 403 | "You don't have permission" | Show forbidden page |
-| 404 | Empty state / 404 page | Show appropriate message |
-| 429 | "Too many requests" | Show retry message with countdown |
-| 500+ | "Something went wrong" | Show generic error + retry button |
+Not applicable — no API integration exists.
 
 ## User-Facing Error UI Rules
 - ALWAYS show a meaningful message — never a blank screen or raw error
@@ -103,12 +69,6 @@ export class ApiError extends Error {
 - Show skeleton / spinner while loading
 - Show error UI if request fails
 - Show empty state if data is empty
-```tsx
-if (isLoading) return <Skeleton />;
-if (isError) return <ErrorMessage error={error} onRetry={refetch} />;
-if (!data?.length) return <EmptyState />;
-return <UserList users={data} />;
-```
 
 ## Changelog
 <!-- [PROJ-123] Added per-route error boundaries -->

@@ -1,57 +1,59 @@
 # Tooling
 > Tags: bundler, linter, test, ci, formatter, quality
 > Scope: Dev tools, CI/CD pipeline, quality checks
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Bundler
-- Tool: [Vite / webpack / Next.js / CRA]
-- Config: [e.g. `vite.config.ts` / `webpack.config.js`]
+- Tool: Vite 8.0.0-beta.13
+- Config: `vite.config.ts` (minimal — just `@vitejs/plugin-react`)
 - Dev server: `npm run dev`
-- Build: `npm run build`
-- Preview: `npm run preview` (Vite) or `npx serve dist`
+- Build: `npm run build` (runs `tsc -b && vite build`)
+- Preview: `npm run preview`
 
 ## Linting
-- ESLint: `npm run lint`
-- Config: `.eslintrc.js` or `eslint.config.js`
-- Plugins: [e.g. react, react-hooks, jsx-a11y, import, typescript-eslint]
+- ESLint 9: `npm run lint`
+- Config: `eslint.config.js` (flat config format)
+- Plugins: `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`
 - Auto-fix: `npm run lint -- --fix`
+- Ignores: `dist/`
 
 ## Formatting
-- Prettier: `npm run format` (if configured)
-- Config: `.prettierrc`
-- Ignored: `.prettierignore`
+- Prettier: Not configured
+- No `.prettierrc` or format script
 
 ## Type Checking
-- TypeScript: `tsc --noEmit`
-- Config: `tsconfig.json`
-- Strict mode: [enabled / disabled]
+- TypeScript 5.9: `tsc -b` (runs as part of `npm run build`)
+- Standalone check: `npx tsc --noEmit`
+- Config: `tsconfig.json` → references `tsconfig.app.json` + `tsconfig.node.json`
+- Strict mode: enabled
 
 ## Testing
-- Framework: [Vitest / Jest]
-- Library: React Testing Library
-- Run all: `npm test`
-- Run specific: `npm test -- ComponentName`
-- Coverage: `npm test -- --coverage`
-- Watch mode: `npm test -- --watch`
-- Config: [e.g. `vitest.config.ts` / `jest.config.js`]
+- Framework: Not configured
+- No test runner, no test files, no test scripts
+- Recommendation: Add Vitest (pairs well with Vite) + React Testing Library
 
-## Storybook (if used)
-<!-- DELETE this section if no Storybook -->
-- Start: `npm run storybook`
-- Build: `npm run build-storybook`
-- Config: `.storybook/`
+## Storybook
+Not used.
 
 ## CI/CD
-- Platform: [GitHub Actions / Vercel / Netlify / CircleCI]
-- Config: [e.g. `.github/workflows/ci.yml`]
-- Pipeline steps: lint → type-check → test → build
-- Deploy: [auto on merge to main / manual / preview per PR]
-- Required checks before merge: [list them]
+- Platform: Not configured
+- `.github/` contains only `copilot-instructions.md` — no workflow files
+- No CI pipeline, no automated checks
 
 ## Code Quality
-- PR review required: [yes/no, how many]
-- Branch strategy: [feature branches → main]
-- Commit convention: [conventional commits / free-form]
+- PR review required: Not defined
+- Branch strategy: Not defined
+- Commit convention: Not defined
+
+## Available npm Scripts
+```json
+{
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview"
+}
+```
 
 ## Changelog
 <!-- [PROJ-123] Migrated from CRA to Vite -->

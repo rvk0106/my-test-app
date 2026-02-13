@@ -1,11 +1,22 @@
 # Accessibility (a11y)
 > Tags: accessibility, wcag, aria, keyboard, screen-reader
 > Scope: Accessibility requirements and patterns for the application
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Standard
 - Target: **WCAG 2.1 AA** compliance
-- Testing: automated (axe-core, eslint-plugin-jsx-a11y) + manual (keyboard, screen reader)
+- Testing: automated (eslint-plugin-jsx-a11y not yet installed) + manual
+
+## Current State
+The default Vite scaffold has minimal accessibility:
+- `<html lang="en">` is set in `index.html`
+- `<meta name="viewport">` is set for responsive behavior
+- Logo images have `alt` text (`"Vite logo"`, `"React logo"`)
+- External links do NOT have `rel="noopener noreferrer"` (missing from scaffold)
+- No semantic landmark elements (`<header>`, `<main>`, `<nav>`, `<footer>`)
+- No ARIA attributes
+- No skip-to-content link
+- No `eslint-plugin-jsx-a11y` installed
 
 ## Semantic HTML First
 ```tsx
@@ -32,70 +43,23 @@
 - Every icon-only button must have `aria-label`
 - Live regions for dynamic content: `aria-live="polite"` or `aria-live="assertive"`
 
-```tsx
-// CORRECT
-<button aria-label="Close dialog" onClick={onClose}>
-  <CloseIcon aria-hidden="true" />
-</button>
-
-<img src={avatar} alt={`${user.name}'s profile photo`} />
-<img src={decorative} alt="" />  {/* decorative — empty alt */}
-
-// WRONG — no accessible name
-<button onClick={onClose}><CloseIcon /></button>
-<img src={avatar} />
-```
-
 ## Keyboard Navigation
-- All interactive elements reachable via Tab
-- Logical tab order (matches visual order)
-- Focus visible on all elements (never `outline: none` without replacement)
-- Escape closes modals/dropdowns
-- Arrow keys for lists, menus, tabs
-- Enter/Space activates buttons and links
-
-### Focus Management
-```tsx
-// After opening a modal: focus the first focusable element or the modal title
-// After closing a modal: return focus to the trigger element
-const triggerRef = useRef<HTMLButtonElement>(null);
-
-const handleClose = () => {
-  setIsOpen(false);
-  triggerRef.current?.focus(); // return focus
-};
-```
-
-### Focus Trapping
-- Modals and dialogs MUST trap focus
-- Use a focus trap library or the native `<dialog>` element
-- Tab from last element cycles to first, Shift+Tab from first cycles to last
+- The counter button is natively keyboard accessible (standard `<button>`)
+- Tab order follows DOM order
+- Focus styles use browser defaults
 
 ## Color & Contrast
-- Text contrast: minimum **4.5:1** (normal text), **3:1** (large text)
-- Never use color alone to convey meaning — add icons, text, or patterns
-- Test with grayscale filter to verify
+- Dark mode: white text (#fff at 0.87 opacity) on dark background (#242424)
+- Light mode: dark text (#213547) on white background (#ffffff)
+- Contrast ratios have not been formally audited
 
-## Forms
-```tsx
-// CORRECT
-<label htmlFor="email">Email address</label>
-<input
-  id="email"
-  type="email"
-  aria-describedby="email-error"
-  aria-invalid={!!errors.email}
-/>
-{errors.email && (
-  <span id="email-error" role="alert">
-    {errors.email.message}
-  </span>
-)}
-
-// WRONG — no label, no error association
-<input type="email" placeholder="Email" />
-{errors.email && <span className="error">{errors.email.message}</span>}
-```
+## Recommendations (for future tickets)
+- Install `eslint-plugin-jsx-a11y` and add to ESLint config
+- Add `rel="noopener noreferrer"` to external `target="_blank"` links
+- Use semantic HTML landmarks when layout components are created
+- Add a skip-to-content link
+- Ensure all interactive elements are keyboard accessible
+- Add focus management for modals/dialogs when introduced
 
 ## Component Checklist
 When creating or reviewing any component:
@@ -108,19 +72,6 @@ When creating or reviewing any component:
 - [ ] Dynamic content uses `aria-live` regions
 - [ ] Modals trap focus and return focus on close
 - [ ] No content conveyed by color alone
-
-## Testing
-```bash
-# Automated
-npm run lint                # eslint-plugin-jsx-a11y catches common issues
-npx axe-core               # or run axe in browser DevTools
-
-# Manual
-# Tab through the page — all interactive elements reachable?
-# Screen reader test (VoiceOver, NVDA, or browser built-in)
-# Zoom to 200% — layout still usable?
-# High-contrast mode — all content visible?
-```
 
 ## Changelog
 <!-- [PROJ-123] Added focus management to modal component -->

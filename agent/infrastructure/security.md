@@ -1,7 +1,10 @@
 # Security Rules
 > Tags: security, xss, csp, auth, tokens, sanitization
 > Scope: Security constraints agents must follow in frontend development
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
+
+## Current State
+No authentication, no API integration, no user input handling. The app is a static scaffold with no security-sensitive features.
 
 ## NEVER Do These
 - Never use `dangerouslySetInnerHTML` without sanitizing (use DOMPurify or equivalent)
@@ -36,11 +39,7 @@ import DOMPurify from 'dompurify';
 ```
 
 ## Authentication Tokens
-- Prefer `httpOnly` cookies (not accessible to JS, XSS-safe)
-- If using `localStorage`: acceptable for low-risk tokens, but understand the XSS risk
-- If using in-memory (React state/context): safest, but lost on refresh
-- Always send tokens via `Authorization: Bearer <token>` header, not URL params
-- Always handle token refresh/expiry gracefully (redirect to login)
+Not applicable — no auth system exists.
 
 ## Environment Variables
 ```bash
@@ -54,22 +53,16 @@ VITE_APP_ENV=production
 # STRIPE_SECRET_KEY=...
 ```
 
+No `.env` files currently exist. When introduced, use `.env.local` (gitignored).
+
 ## Third-Party Scripts
-- Audit all third-party scripts (analytics, tracking, widgets)
-- Load third-party scripts async where possible
-- Use Subresource Integrity (SRI) for CDN-hosted scripts
-- Review permissions and data sharing for each third party
+None currently loaded.
 
 ## Dependency Auditing
 ```bash
-# Check for known vulnerabilities
-npm audit
-
-# Fix automatically (safe fixes only)
-npm audit fix
-
-# Check for outdated packages
-npm outdated
+npm audit              # Check for known vulnerabilities
+npm audit fix          # Fix automatically (safe fixes only)
+npm outdated           # Check for outdated packages
 ```
 
 ## Form Security

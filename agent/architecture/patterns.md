@@ -1,7 +1,7 @@
 # Design Patterns & Standards
 > Tags: patterns, conventions, typescript, quality, hooks
 > Scope: Coding patterns and quality standards for this React project
-> Last updated: [TICKET-ID or date]
+> Last updated: initialise
 
 ## Core Principles
 - Agents are collaborators, not autonomous engineers
@@ -9,11 +9,18 @@
 - No scope creep, no unrelated refactors
 
 ## TypeScript Standards
-- Strict mode enabled (`"strict": true` in tsconfig)
-- Explicit return types on exported functions
-- `interface` for object shapes, `type` for unions/intersections
+- Strict mode enabled (`"strict": true` in `tsconfig.app.json`)
+- Target: ES2022
+- Module: ESNext with bundler resolution
+- `noUnusedLocals`: true
+- `noUnusedParameters`: true
+- `erasableSyntaxOnly`: true
+- `noFallthroughCasesInSwitch`: true
+- `noUncheckedSideEffectImports`: true
+- `verbatimModuleSyntax`: true
 - No `any` — use `unknown` and narrow, or proper generics
 - No `@ts-ignore` — fix the type instead
+- `interface` for object shapes, `type` for unions/intersections
 
 ```tsx
 // CORRECT
@@ -54,54 +61,36 @@ useEffect(() => {
 - Return clear interface (not raw state)
 - Handle loading, error, and success states
 
-```tsx
-// CORRECT — clear return interface
-function useUser(userId: string) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['user', userId],
-    queryFn: () => fetchUser(userId),
-  });
-  return { user: data, isLoading, error };
-}
-```
-
 ## Event Handlers
 - Prefix with `handle` in the component: `handleClick`, `handleSubmit`
 - Prefix with `on` in props: `onClick`, `onSubmit`
-```tsx
-interface ButtonProps {
-  onClick: () => void;  // prop: on-prefix
-}
-
-const Parent = () => {
-  const handleSave = () => { ... };  // handler: handle-prefix
-  return <Button onClick={handleSave} />;
-};
-```
 
 ## File Naming
 - Components: `PascalCase.tsx` (e.g. `UserCard.tsx`)
 - Hooks: `camelCase.ts` (e.g. `useAuth.ts`)
 - Utils: `camelCase.ts` (e.g. `formatDate.ts`)
-- Types: `camelCase.ts` or `PascalCase.ts` (e.g. `user.ts` or `User.ts`)
-- Tests: `*.test.tsx` or `*.spec.tsx` (co-located or in `__tests__/`)
-- Styles: `ComponentName.module.css` (if CSS Modules)
+- Types: `camelCase.ts` or `PascalCase.ts`
+- Tests: `*.test.tsx` or `*.spec.tsx`
 - Constants: `SCREAMING_SNAKE_CASE` for values, `camelCase` for files
 
 ## Import Order
 ```tsx
 // 1. React / framework
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // 2. Third-party libraries
-import { useQuery } from '@tanstack/react-query';
 // 3. Internal shared (hooks, utils, types, context)
-import { useAuth } from '@/hooks/useAuth';
-import { formatDate } from '@/utils/formatDate';
-import type { User } from '@/types/user';
 // 4. Relative (siblings, children)
-import { UserAvatar } from './UserAvatar';
-import styles from './UserCard.module.css';
+import './App.css';
 ```
+
+## ESLint Configuration
+- Flat config (`eslint.config.js`)
+- Plugins: `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`
+- Targets: `**/*.{ts,tsx}` files
+- Ignores: `dist/`
+
+## Prettier
+Not configured — no `.prettierrc` file exists.
 
 ## Performance Patterns
 - `React.memo` — only for components that re-render with same props
@@ -117,8 +106,8 @@ import styles from './UserCard.module.css';
 - [ ] Responsive at all breakpoints (see `architecture/styling.md`)
 - [ ] Loading + error states for async operations
 - [ ] No console errors or warnings
-- [ ] ESLint + Prettier pass
-- [ ] Build succeeds
+- [ ] ESLint pass (`npm run lint`)
+- [ ] Build succeeds (`npm run build`)
 
 ## Changelog
 <!-- [PROJ-123] Added custom hooks naming convention -->
